@@ -1,23 +1,19 @@
-const express = require("express");
-const dotenv = require("dotenv");
-const axios = require("axios");
-const cors = require("cors");
+import express from 'express';
+import cors from 'cors';
+import urlRoutes from './routes/urlRoutes.js';
+import logger from './middleware/logger.js';
 
-dotenv.config();
 const app = express();
+const PORT = 3000;
+
 app.use(cors());
 app.use(express.json());
+app.use(logger);
 
-const PORT = 5000;
-
-app.get("/api/products", (req, res) => {
-    res.json([
-        
-
-    ])
+app.get('/', (req, res) => {
+    res.send('Welcome to the URL_SHORTNER. Use /shorturls to create short URLs.');
 });
 
-app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
-  });
-  
+app.use('/', urlRoutes);
+
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
